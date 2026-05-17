@@ -1,0 +1,13 @@
+{"text": "Can I get a receipt for my yesterday payment of $49.99?", "domain": "billing", "label": "resolved", "source": "template", "response": ""}
+{"text": "Can I get a receipt for my last Tuesday payment of $14.99?", "domain": "billing", "label": "resolved", "source": "template", "response": ""}
+{"text": "I was charged $199.99 on yesterday but I didn't authorise this.", "domain": "billing", "label": "resolved", "source": "template", "response": ""}
+{"text": "Can I get a receipt for my yesterday payment of $9.99?", "domain": "billing", "label": "resolved", "source": "template", "response": ""}
+{"text": "Can I get a receipt for my last month payment of $14.99?", "domain": "billing", "label": "resolved", "source": "template", "response": ""}
+{"text": "My invoice for yesterday shows $199.99 but it should be $39.99.", "domain": "billing", "label": "resolved", "source": "template", "response": ""}
+{"text": "I'd like to pause my subscription for two weeks.", "domain": "billing", "label": "resolved", "source": "template", "response": ""}
+{"text": "I was charged $49.99 on yesterday but I didn't authorise this.", "domain": "billing", "label": "resolved", "source": "template", "response": ""}
+{"text": "My invoice for yesterday shows $14.99 but it should be $39.99.", "domain": "billing", "label": "resolved", "source": "template", "response": ""}
+{"text": "I want to cancel my Student subscription and get a refund.", "domain": "billing", "label": "resolved", "source": "template", "response": ""}
+{"text": "I need to upgrade from Starter to Enterprise plan.", "domain": "billing", "label": "resolved", "source": "template", "response": ""}
+{"text": "Can I get a receipt for my on the 15th payment of $199.99?", "domain": "billing", "label": "resolved", "source": "template", "response": ""}
+{"text": "Can I get a receipt for my on the 15th payment of $9.99?", "domain": "billing", "label": "resolved", "source": "template", "response": ""}

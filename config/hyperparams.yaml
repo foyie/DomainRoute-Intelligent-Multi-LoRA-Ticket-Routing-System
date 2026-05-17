@@ -1,0 +1,175 @@
+# VeriTune — Hyperparameter Configuration
+# Loaded by training/config.py and scripts/train_domain_loras.py
+
+base_model: "mistralai/Mistral-7B-Instruct-v0.2"
+data_dir: "data/datasets/processed"
+output_dir: "outputs/checkpoints"
+wandb_project: "veritune"
+seed: 42
+run_sweep: false   # set to true to run full hyperparameter sweep
+
+# ── Domain-specific LoRA configurations ───────────────────────────────────────
+# These are the Pareto-optimal configs selected from the sweep results.
+# See notebooks/03_lora_sweep_results.ipynb for the full sweep analysis.
+
+domains:
+  technical:
+    lora_r: 32
+    lora_alpha: 64
+    lora_dropout: 0.05
+    learning_rate: 0.0002
+    num_train_epochs: 3
+    per_device_train_batch_size: 4
+    per_device_eval_batch_size: 8
+    gradient_accumulation_steps: 4   # effective batch size: 16
+    warmup_ratio: 0.05
+    lr_scheduler_type: cosine
+    weight_decay: 0.01
+    max_grad_norm: 1.0
+    max_seq_length: 512
+    early_stopping_patience: 5
+    eval_steps: 100
+    save_steps: 100
+    save_total_limit: 3
+    fp16: true
+    use_qlora: true
+    load_in_4bit: false
+    target_modules:
+      - q_proj
+      - k_proj
+      - v_proj
+      - o_proj
+      - gate_proj
+      - up_proj
+      - down_proj
+
+  billing:
+    lora_r: 24
+    lora_alpha: 48
+    lora_dropout: 0.05
+    learning_rate: 0.0002
+    num_train_epochs: 3
+    per_device_train_batch_size: 4
+    per_device_eval_batch_size: 8
+    gradient_accumulation_steps: 4
+    warmup_ratio: 0.05
+    lr_scheduler_type: cosine
+    weight_decay: 0.01
+    max_grad_norm: 1.0
+    max_seq_length: 512
+    early_stopping_patience: 5
+    eval_steps: 100
+    save_steps: 100
+    save_total_limit: 3
+    fp16: true
+    use_qlora: true
+    load_in_4bit: false
+    target_modules:
+      - q_proj
+      - k_proj
+      - v_proj
+      - o_proj
+      - gate_proj
+      - up_proj
+      - down_proj
+
+  returns:
+    lora_r: 28
+    lora_alpha: 56
+    lora_dropout: 0.05
+    learning_rate: 0.0002
+    num_train_epochs: 3
+    per_device_train_batch_size: 4
+    per_device_eval_batch_size: 8
+    gradient_accumulation_steps: 4
+    warmup_ratio: 0.05
+    lr_scheduler_type: cosine
+    weight_decay: 0.01
+    max_grad_norm: 1.0
+    max_seq_length: 512
+    early_stopping_patience: 5
+    eval_steps: 100
+    save_steps: 100
+    save_total_limit: 3
+    fp16: true
+    use_qlora: true
+    load_in_4bit: false
+    target_modules:
+      - q_proj
+      - k_proj
+      - v_proj
+      - o_proj
+      - gate_proj
+      - up_proj
+      - down_proj
+
+  # Escalation uses a tiny adapter — binary signal detector, not generator
+  escalation:
+    lora_r: 8
+    lora_alpha: 16
+    lora_dropout: 0.0
+    learning_rate: 0.0001
+    num_train_epochs: 5
+    per_device_train_batch_size: 8
+    per_device_eval_batch_size: 16
+    gradient_accumulation_steps: 2   # effective batch size: 16
+    warmup_ratio: 0.10
+    lr_scheduler_type: cosine
+    weight_decay: 0.01
+    max_grad_norm: 1.0
+    max_seq_length: 256   # shorter — escalation signal in first ~100 words
+    early_stopping_patience: 8
+    eval_steps: 50
+    save_steps: 50
+    save_total_limit: 3
+    fp16: true
+    use_qlora: true
+    load_in_4bit: false
+    target_modules:
+      - q_proj
+      - v_proj
+
+# ── Hyperparameter sweep grids ─────────────────────────────────────────────────
+# Used when run_sweep: true
+# Generates all combinations: technical sweep = 3×2×1×2×1 = 12 runs
+
+sweep_grids:
+  technical:
+    lora_r_values: [16, 32, 64]
+    learning_rates: [0.0001, 0.0002]
+    lora_alpha_multipliers: [2]     # alpha = r × multiplier
+    dropout_values: [0.0, 0.05]
+    warmup_ratios: [0.05]
+
+  billing:
+    lora_r_values: [16, 24, 32]
+    learning_rates: [0.0001, 0.0002]
+    lora_alpha_multipliers: [2]
+    dropout_values: [0.0, 0.05]
+    warmup_ratios: [0.05]
+
+  returns:
+    lora_r_values: [16, 28, 32]
+    learning_rates: [0.0001, 0.0002]
+    lora_alpha_multipliers: [2]
+    dropout_values: [0.0, 0.05]
+    warmup_ratios: [0.05]
+
+  escalation:
+    lora_r_values: [4, 8, 16]
+    learning_rates: [0.00005, 0.0001, 0.0002]
+    lora_alpha_multipliers: [1, 2]
+    dropout_values: [0.0]
+    warmup_ratios: [0.05, 0.10]
+
+# ── Semantic drift thresholds ──────────────────────────────────────────────────
+drift:
+  max_cosine_distance: 0.10    # flag if drift > this (cosine_sim < 0.90)
+  probe_set_size: 50           # number of validation examples used for drift measurement
+  check_every_n_epochs: 1      # measure drift every N epochs
+
+# ── Checkpoint selection ───────────────────────────────────────────────────────
+checkpointing:
+  top_k: 3                     # keep top-3 checkpoints per domain
+  primary_metric: eval_loss
+  greater_is_better: false

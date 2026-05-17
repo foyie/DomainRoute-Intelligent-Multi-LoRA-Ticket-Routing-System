@@ -1,0 +1,38 @@
+{
+  "technical": {
+    "seed": 0,
+    "synthetic": 600,
+    "after_qa": 535,
+    "train": 427,
+    "val": 54,
+    "test": 54,
+    "noise_rate": 0.0
+  },
+  "billing": {
+    "seed": 0,
+    "synthetic": 600,
+    "after_qa": 128,
+    "train": 102,
+    "val": 13,
+    "test": 13,
+    "noise_rate": 0.0
+  },
+  "returns": {
+    "seed": 0,
+    "synthetic": 600,
+    "after_qa": 241,
+    "train": 192,
+    "val": 24,
+    "test": 25,
+    "noise_rate": 0.0
+  },
+  "escalation": {
+    "seed": 0,
+    "synthetic": 600,
+    "after_qa": 69,
+    "train": 55,
+    "val": 7,
+    "test": 7,
+    "noise_rate": 0.0
+  }
+}

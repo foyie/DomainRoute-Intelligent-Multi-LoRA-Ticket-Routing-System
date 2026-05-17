@@ -1,0 +1,202 @@
+# VeriTune — Domain Configuration
+# Defines domain metadata, intent examples, and escalation signals
+# Used by: intent_router, synthetic_gen, quality_gates, safety_filters
+
+domains:
+  technical:
+    id: technical
+    display_name: "Technical Support"
+    lora_rank: 32
+    cost_per_ticket: 0.05
+    confidence_threshold: 0.70
+    description: "Device issues, app bugs, firmware, connectivity, product troubleshooting"
+    intent_examples:
+      - "my headphones won't connect to bluetooth"
+      - "the app keeps crashing on my phone"
+      - "firmware update failed and now device won't turn on"
+      - "wifi keeps disconnecting every few minutes"
+      - "speaker is making a crackling noise"
+      - "battery drains too fast after latest update"
+      - "touch controls stopped responding"
+      - "device not recognised when plugged into computer"
+      - "software keeps saying my license is invalid"
+      - "screen flickering and going black randomly"
+    keywords:
+      - firmware
+      - bluetooth
+      - wifi
+      - connectivity
+      - bug
+      - crash
+      - update
+      - driver
+      - reboot
+      - sync
+      - pairing
+      - error
+      - not working
+      - broken
+      - glitch
+    response_template: |
+      Thank you for reaching out about your technical issue.
+      [TROUBLESHOOTING_STEPS]
+      If these steps don't resolve the problem, I can arrange a replacement or escalate to our technical team.
+
+  billing:
+    id: billing
+    display_name: "Billing & Payments"
+    lora_rank: 24
+    cost_per_ticket: 0.12
+    confidence_threshold: 0.70
+    description: "Charges, refunds, subscriptions, invoices, payment methods"
+    intent_examples:
+      - "i was charged twice for my subscription"
+      - "i want to cancel and get a refund"
+      - "my credit card was declined but the charge still went through"
+      - "can i upgrade to the annual plan"
+      - "i need a copy of my invoice for tax purposes"
+      - "when does my free trial end"
+      - "how do i update my payment method"
+      - "i didn't authorise this charge"
+      - "why is my bill higher than usual this month"
+      - "i want to pause my subscription for two months"
+    keywords:
+      - charge
+      - refund
+      - invoice
+      - subscription
+      - billing
+      - payment
+      - credit card
+      - receipt
+      - cancel
+      - upgrade
+      - downgrade
+      - trial
+      - promo
+      - coupon
+      - discount
+      - unauthorised
+    response_template: |
+      I've located your account and can see your billing history.
+      [BILLING_ACTION]
+      You'll receive a confirmation email within a few minutes.
+
+  returns:
+    id: returns
+    display_name: "Returns & Exchanges"
+    lora_rank: 28
+    cost_per_ticket: 0.09
+    confidence_threshold: 0.70
+    description: "Product returns, exchanges, shipping, item condition, warranty"
+    intent_examples:
+      - "i want to return the headphones i bought last week"
+      - "i received the wrong item in my order"
+      - "the product arrived damaged"
+      - "i need to exchange for a different size"
+      - "what is your return policy"
+      - "how long does the return shipping take"
+      - "i lost my return label can you send another"
+      - "the item stopped working after two days i want a replacement"
+      - "my order says delivered but nothing arrived"
+      - "can i return a gift i received"
+    keywords:
+      - return
+      - exchange
+      - refund
+      - damaged
+      - wrong item
+      - replacement
+      - warranty
+      - shipping
+      - delivery
+      - lost
+      - missing
+      - package
+      - label
+      - RMA
+    response_template: |
+      I'm sorry to hear about the issue with your order.
+      [RETURN_ACTION]
+      You'll receive tracking details via email once the return is processed.
+
+  escalation:
+    id: escalation
+    display_name: "Escalation Detector"
+    lora_rank: 8
+    cost_per_ticket: 0.15
+    confidence_threshold: 0.50   # lower threshold — safety critical
+    description: "Anger signals, threats, policy violations, repeated contacts, complexity flags"
+    intent_examples:
+      - "this is absolutely unacceptable i want to speak to a manager right now"
+      - "i am going to file a chargeback if you don't fix this immediately"
+      - "i've contacted you five times and nobody has helped me"
+      - "i'm posting this on every review site i can find"
+      - "you people are useless i want my money back now"
+      - "i'm a lawyer and i'll be taking legal action"
+      - "this is fraud and i'm reporting you to my bank"
+      - "i've been a loyal customer for ten years and this is how you treat me"
+      - "one more ignored message and i'm cancelling everything"
+      - "i am extremely frustrated nobody is reading my emails"
+    escalation_signals:
+      anger_keywords:
+        - unacceptable
+        - furious
+        - disgusted
+        - outraged
+        - ridiculous
+        - pathetic
+        - useless
+        - incompetent
+        - disgraceful
+      threat_keywords:
+        - chargeback
+        - lawyer
+        - lawsuit
+        - legal action
+        - report
+        - review site
+        - BBB
+        - consumer protection
+        - fraud
+      urgency_keywords:
+        - immediately
+        - right now
+        - asap
+        - urgent
+        - emergency
+        - last chance
+      repetition_signals:
+        max_contacts_before_escalation: 3
+        lookback_hours: 48
+    response_template: |
+      I sincerely apologise for the experience you've had.
+      I'm escalating this to a senior specialist who will contact you within the hour.
+      Your case reference is [CASE_ID].
+
+# Global routing config
+routing:
+  fallback_domain: technical          # if confidence < threshold for all domains
+  min_confidence_to_auto_resolve: 0.70
+  escalation_always_checked: true     # escalation detector runs on every ticket
+  zero_shot_fallback: true            # use nearest domain for unseen intents
+  embedding_model: "all-MiniLM-L6-v2"
+
+# Dataset config
+dataset:
+  min_examples_per_domain: 500
+  target_examples_per_domain: 800
+  train_split: 0.80
+  val_split: 0.10
+  test_split: 0.10
+  stratify_by: domain
+  random_seed: 42
+  synthetic_augmentation_ratio: 0.30  # up to 30% synthetic examples per domain
+
+# Quality gate thresholds
+quality:
+  max_label_noise_rate: 0.10          # flag datasets above 10% noise
+  iqr_multiplier: 1.5                 # IQR outlier fence
+  min_text_length: 10                 # characters
+  max_text_length: 2000               # characters
+  min_confidence_for_clean_label: 0.80

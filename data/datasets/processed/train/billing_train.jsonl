@@ -1,0 +1,102 @@
+{"text": "My invoice for on the 15th shows $14.99 but it should be $24.99.", "domain": "billing", "label": "resolved", "source": "template", "response": ""}
+{"text": "My invoice for last month shows $199.99 but it should be $7.99.", "domain": "billing", "label": "resolved", "source": "template", "response": ""}
+{"text": "Can I get a receipt for my last month payment of $29.99?", "domain": "billing", "label": "resolved", "source": "template", "response": ""}
+{"text": "My invoice for 3 days ago shows $199.99 but it should be $24.99.", "domain": "billing", "label": "resolved", "source": "template", "response": ""}
+{"text": "My invoice for on the 15th shows $14.99 but it should be $39.99.", "domain": "billing", "label": "resolved", "source": "template", "response": ""}
+{"text": "Can I get a receipt for my last Tuesday payment of $9.99?", "domain": "billing", "label": "resolved", "source": "template", "response": ""}
+{"text": "My Mastercard was declined but the charge still went through.", "domain": "billing", "label": "resolved", "source": "template", "response": ""}
+{"text": "My invoice for yesterday shows $199.99 but it should be $7.99.", "domain": "billing", "label": "resolved", "source": "template", "response": ""}
+{"text": "Can I get a receipt for my 3 days ago payment of $29.99?", "domain": "billing", "label": "resolved", "source": "template", "response": ""}
+{"text": "I'd like to pause my subscription for 48 hours.", "domain": "billing", "label": "resolved", "source": "template", "response": ""}
+{"text": "Can I get a receipt for my 3 days ago payment of $9.99?", "domain": "billing", "label": "resolved", "source": "template", "response": ""}
+{"text": "I was charged $49.99 on on the 15th but I didn't authorise this.", "domain": "billing", "label": "resolved", "source": "template", "response": ""}
+{"text": "My invoice for last month shows $49.99 but it should be $12.99.", "domain": "billing", "label": "resolved", "source": "template", "response": ""}
+{"text": "My invoice for 3 days ago shows $14.99 but it should be $7.99.", "domain": "billing", "label": "resolved", "source": "template", "response": ""}
+{"text": "My invoice for on the 15th shows $199.99 but it should be $12.99.", "domain": "billing", "label": "resolved", "source": "template", "response": ""}
+{"text": "I was billed twice for the same order ##773401.", "domain": "billing", "label": "resolved", "source": "template", "response": ""}
+{"text": "Can I get a receipt for my yesterday payment of $99.99?", "domain": "billing", "label": "resolved", "source": "template", "response": ""}
+{"text": "My invoice for last month shows $199.99 but it should be $24.99.", "domain": "billing", "label": "resolved", "source": "template", "response": ""}
+{"text": "I need to upgrade from Free to Pro plan.", "domain": "billing", "label": "resolved", "source": "template", "response": ""}
+{"text": "Can I get a receipt for my last month payment of $49.99?", "domain": "billing", "label": "resolved", "source": "template", "response": ""}
+{"text": "I was billed twice for the same order ##384921.", "domain": "billing", "label": "resolved", "source": "template", "response": ""}
+{"text": "My invoice for last Tuesday shows $49.99 but it should be $7.99.", "domain": "billing", "label": "resolved", "source": "template", "response": ""}
+{"text": "I need to upgrade from Free to Enterprise plan.", "domain": "billing", "label": "resolved", "source": "template", "response": ""}
+{"text": "I was charged $14.99 on 3 days ago but I didn't authorise this.", "domain": "billing", "label": "resolved", "source": "template", "response": ""}
+{"text": "My invoice for on the 15th shows $49.99 but it should be $7.99.", "domain": "billing", "label": "resolved", "source": "template", "response": ""}
+{"text": "My invoice for on the 15th shows $99.99 but it should be $24.99.", "domain": "billing", "label": "resolved", "source": "template", "response": ""}
+{"text": "My invoice for last month shows $29.99 but it should be $7.99.", "domain": "billing", "label": "resolved", "source": "template", "response": ""}
+{"text": "My invoice for on the 15th shows $29.99 but it should be $12.99.", "domain": "billing", "label": "resolved", "source": "template", "response": ""}
+{"text": "Can I get a receipt for my yesterday payment of $199.99?", "domain": "billing", "label": "resolved", "source": "template", "response": ""}
+{"text": "Can I get a receipt for my 3 days ago payment of $14.99?", "domain": "billing", "label": "resolved", "source": "template", "response": ""}
+{"text": "My Apple Pay was declined but the charge still went through.", "domain": "billing", "label": "resolved", "source": "template", "response": ""}
+{"text": "I was charged $199.99 on last Tuesday but I didn't authorise this.", "domain": "billing", "label": "resolved", "source": "template", "response": ""}
+{"text": "My PayPal was declined but the charge still went through.", "domain": "billing", "label": "resolved", "source": "template", "response": ""}
+{"text": "I was charged $14.99 on last month but I didn't authorise this.", "domain": "billing", "label": "resolved", "source": "template", "response": ""}
+{"text": "I was charged $49.99 on last Tuesday but I didn't authorise this.", "domain": "billing", "label": "resolved", "source": "template", "response": ""}
+{"text": "My invoice for yesterday shows $9.99 but it should be $12.99.", "domain": "billing", "label": "resolved", "source": "template", "response": ""}
+{"text": "I was charged $199.99 on 3 days ago but I didn't authorise this.", "domain": "billing", "label": "resolved", "source": "template", "response": ""}
+{"text": "Can I get a receipt for my last Tuesday payment of $199.99?", "domain": "billing", "label": "resolved", "source": "template", "response": ""}
+{"text": "I was charged $199.99 on last month but I didn't authorise this.", "domain": "billing", "label": "resolved", "source": "template", "response": ""}
+{"text": "My invoice for yesterday shows $29.99 but it should be $39.99.", "domain": "billing", "label": "resolved", "source": "template", "response": ""}
+{"text": "My promo code SAVE20 didn't apply at checkout.", "domain": "billing", "label": "resolved", "source": "template", "response": ""}
+{"text": "I'd like to pause my subscription for three days.", "domain": "billing", "label": "resolved", "source": "template", "response": ""}
+{"text": "I was charged $29.99 on 3 days ago but I didn't authorise this.", "domain": "billing", "label": "resolved", "source": "template", "response": ""}
+{"text": "I want to cancel my Enterprise subscription and get a refund.", "domain": "billing", "label": "resolved", "source": "template", "response": ""}
+{"text": "Can I get a receipt for my 3 days ago payment of $199.99?", "domain": "billing", "label": "resolved", "source": "template", "response": ""}
+{"text": "My promo code WELCOME10 didn't apply at checkout.", "domain": "billing", "label": "resolved", "source": "template", "response": ""}
+{"text": "I was charged $49.99 on 3 days ago but I didn't authorise this.", "domain": "billing", "label": "resolved", "source": "template", "response": ""}
+{"text": "I was charged $9.99 on last Tuesday but I didn't authorise this.", "domain": "billing", "label": "resolved", "source": "template", "response": ""}
+{"text": "My invoice for 3 days ago shows $49.99 but it should be $24.99.", "domain": "billing", "label": "resolved", "source": "template", "response": ""}
+{"text": "My invoice for last month shows $199.99 but it should be $12.99.", "domain": "billing", "label": "resolved", "source": "template", "response": ""}
+{"text": "My Visa ending in 4242 was declined but the charge still went through.", "domain": "billing", "label": "resolved", "source": "template", "response": ""}
+{"text": "Can I get a receipt for my yesterday payment of $29.99?", "domain": "billing", "label": "resolved", "source": "template", "response": ""}
+{"text": "I need to upgrade from Starter to Pro plan.", "domain": "billing", "label": "resolved", "source": "template", "response": ""}
+{"text": "My invoice for 3 days ago shows $99.99 but it should be $39.99.", "domain": "billing", "label": "resolved", "source": "template", "response": ""}
+{"text": "My invoice for last month shows $99.99 but it should be $12.99.", "domain": "billing", "label": "resolved", "source": "template", "response": ""}
+{"text": "Can I get a receipt for my last Tuesday payment of $29.99?", "domain": "billing", "label": "resolved", "source": "template", "response": ""}
+{"text": "My invoice for last month shows $14.99 but it should be $7.99.", "domain": "billing", "label": "resolved", "source": "template", "response": ""}
+{"text": "I was charged $9.99 on 3 days ago but I didn't authorise this.", "domain": "billing", "label": "resolved", "source": "template", "response": ""}
+{"text": "Can I get a receipt for my on the 15th payment of $29.99?", "domain": "billing", "label": "resolved", "source": "template", "response": ""}
+{"text": "My invoice for 3 days ago shows $29.99 but it should be $7.99.", "domain": "billing", "label": "resolved", "source": "template", "response": ""}
+{"text": "Can I get a receipt for my last month payment of $199.99?", "domain": "billing", "label": "resolved", "source": "template", "response": ""}
+{"text": "I'd like to pause my subscription for more than two weeks.", "domain": "billing", "label": "resolved", "source": "template", "response": ""}
+{"text": "My invoice for on the 15th shows $29.99 but it should be $39.99.", "domain": "billing", "label": "resolved", "source": "template", "response": ""}
+{"text": "Can I get a receipt for my last Tuesday payment of $99.99?", "domain": "billing", "label": "resolved", "source": "template", "response": ""}
+{"text": "My promo code PROMO50 didn't apply at checkout.", "domain": "billing", "label": "resolved", "source": "template", "response": ""}
+{"text": "I was charged $29.99 on last month but I didn't authorise this.", "domain": "billing", "label": "resolved", "source": "template", "response": ""}
+{"text": "I need to upgrade from Basic to Business plan.", "domain": "billing", "label": "resolved", "source": "template", "response": ""}
+{"text": "My invoice for on the 15th shows $49.99 but it should be $39.99.", "domain": "billing", "label": "resolved", "source": "template", "response": ""}
+{"text": "I was billed twice for the same order ##489302.", "domain": "billing", "label": "resolved", "source": "template", "response": ""}
+{"text": "My promo code SUMMER25 didn't apply at checkout.", "domain": "billing", "label": "resolved", "source": "template", "response": ""}
+{"text": "Can I get a receipt for my last month payment of $9.99?", "domain": "billing", "label": "resolved", "source": "template", "response": ""}
+{"text": "My invoice for yesterday shows $14.99 but it should be $12.99.", "domain": "billing", "label": "resolved", "source": "template", "response": ""}
+{"text": "My invoice for last Tuesday shows $199.99 but it should be $7.99.", "domain": "billing", "label": "resolved", "source": "template", "response": ""}
+{"text": "My invoice for yesterday shows $49.99 but it should be $24.99.", "domain": "billing", "label": "resolved", "source": "template", "response": ""}
+{"text": "I'd like to pause my subscription for ten days.", "domain": "billing", "label": "resolved", "source": "template", "response": ""}
+{"text": "When does my free trial end and how much will I be charged?", "domain": "billing", "label": "resolved", "source": "template", "response": ""}
+{"text": "Can I get a receipt for my 3 days ago payment of $49.99?", "domain": "billing", "label": "resolved", "source": "template", "response": ""}
+{"text": "I need to upgrade from Free to Business plan.", "domain": "billing", "label": "resolved", "source": "template", "response": ""}
+{"text": "I was charged $29.99 on last Tuesday but I didn't authorise this.", "domain": "billing", "label": "resolved", "source": "template", "response": ""}
+{"text": "Can I get a receipt for my on the 15th payment of $49.99?", "domain": "billing", "label": "resolved", "source": "template", "response": ""}
+{"text": "My invoice for yesterday shows $49.99 but it should be $12.99.", "domain": "billing", "label": "resolved", "source": "template", "response": ""}
+{"text": "My invoice for on the 15th shows $29.99 but it should be $24.99.", "domain": "billing", "label": "resolved", "source": "template", "response": ""}
+{"text": "I was charged $9.99 on last month but I didn't authorise this.", "domain": "billing", "label": "resolved", "source": "template", "response": ""}
+{"text": "My invoice for on the 15th shows $9.99 but it should be $39.99.", "domain": "billing", "label": "resolved", "source": "template", "response": ""}
+{"text": "I was charged $29.99 on yesterday but I didn't authorise this.", "domain": "billing", "label": "resolved", "source": "template", "response": ""}
+{"text": "My invoice for 3 days ago shows $49.99 but it should be $12.99.", "domain": "billing", "label": "resolved", "source": "template", "response": ""}
+{"text": "My invoice for last Tuesday shows $49.99 but it should be $39.99.", "domain": "billing", "label": "resolved", "source": "template", "response": ""}
+{"text": "My invoice for yesterday shows $49.99 but it should be $39.99.", "domain": "billing", "label": "resolved", "source": "template", "response": ""}
+{"text": "I'd like to pause my subscription for a month.", "domain": "billing", "label": "resolved", "source": "template", "response": ""}
+{"text": "I was billed twice for the same order ##920183.", "domain": "billing", "label": "resolved", "source": "template", "response": ""}
+{"text": "I want to cancel my Basic subscription and get a refund.", "domain": "billing", "label": "resolved", "source": "template", "response": ""}
+{"text": "My invoice for on the 15th shows $14.99 but it should be $7.99.", "domain": "billing", "label": "resolved", "source": "template", "response": ""}
+{"text": "I'd like to pause my subscription for over a week.", "domain": "billing", "label": "resolved", "source": "template", "response": ""}
+{"text": "I was charged $99.99 on on the 15th but I didn't authorise this.", "domain": "billing", "label": "resolved", "source": "template", "response": ""}
+{"text": "My invoice for last Tuesday shows $199.99 but it should be $12.99.", "domain": "billing", "label": "resolved", "source": "template", "response": ""}
+{"text": "Can I get a receipt for my on the 15th payment of $14.99?", "domain": "billing", "label": "resolved", "source": "template", "response": ""}
+{"text": "Can I get a receipt for my on the 15th payment of $99.99?", "domain": "billing", "label": "resolved", "source": "template", "response": ""}
+{"text": "I need to upgrade from Starter to Business plan.", "domain": "billing", "label": "resolved", "source": "template", "response": ""}
+{"text": "I was charged $99.99 on yesterday but I didn't authorise this.", "domain": "billing", "label": "resolved", "source": "template", "response": ""}
+{"text": "Can I get a receipt for my last month payment of $99.99?", "domain": "billing", "label": "resolved", "source": "template", "response": ""}
+{"text": "I want to cancel my Pro subscription and get a refund.", "domain": "billing", "label": "resolved", "source": "template", "response": ""}
+{"text": "My invoice for 3 days ago shows $99.99 but it should be $24.99.", "domain": "billing", "label": "resolved", "source": "template", "response": ""}

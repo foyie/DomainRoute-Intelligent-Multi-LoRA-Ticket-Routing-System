@@ -1,0 +1,7 @@
+{"text": "I'm going to file a chargeback if this isn't resolved in three days.", "domain": "escalation", "label": "escalate", "source": "template", "response": ""}
+{"text": "Completely useless. I've spent two weeks on the phone and nothing is resolved.", "domain": "escalation", "label": "escalate", "source": "template", "response": ""}
+{"text": "I've contacted support seven times about order ##384921. Fix this NOW.", "domain": "escalation", "label": "escalate", "source": "template", "response": ""}
+{"text": "I'm posting a 1-star review everywhere unless you refund my $14.99 immediately.", "domain": "escalation", "label": "escalate", "source": "template", "response": ""}
+{"text": "I've contacted support 6 times about order ##651023. Fix this NOW.", "domain": "escalation", "label": "escalate", "source": "template", "response": ""}
+{"text": "I'm posting a 1-star review everywhere unless you refund my $9.99 immediately.", "domain": "escalation", "label": "escalate", "source": "template", "response": ""}
+{"text": "I'm going to file a chargeback if this isn't resolved in a month.", "domain": "escalation", "label": "escalate", "source": "template", "response": ""}

@@ -1,0 +1,64 @@
+# VeriTune — Multi-Domain Intent Router with Adaptive Fine-tuning
+# Python 3.10+
+
+# ── Core ML / HuggingFace stack ──────────────────────────────────────────────
+torch>=2.1.0
+transformers>=4.40.0
+datasets>=2.18.0
+peft>=0.10.0                   # LoRA / QLoRA
+bitsandbytes>=0.43.0           # 8-bit quantisation (QLoRA)
+accelerate>=0.29.0             # device placement, mixed precision
+tokenizers>=0.19.0
+
+# ── Sentence embeddings (intent router) ──────────────────────────────────────
+sentence-transformers>=2.7.0   # all-MiniLM-L6-v2
+
+# ── Data / quality ────────────────────────────────────────────────────────────
+pandas>=2.2.0
+numpy>=1.26.0
+scikit-learn>=1.4.0            # SVM, LabelEncoder, train_test_split
+cleanlab>=2.6.0                # confident learning / label noise detection
+scipy>=1.13.0                  # IQR outlier detection
+
+# ── Synthetic data generation ─────────────────────────────────────────────────
+instructor>=1.2.0              # structured LLM outputs
+openai>=1.23.0                 # GPT-4o-mini for augmentation
+
+# ── Evaluation ────────────────────────────────────────────────────────────────
+ragas>=0.1.9                   # faithfulness, relevance (reuse from VeriRAG)
+
+# ── Serving ───────────────────────────────────────────────────────────────────
+fastapi>=0.111.0
+uvicorn[standard]>=0.29.0
+pydantic>=2.7.0
+httpx>=0.27.0                  # async HTTP client
+
+# ── Monitoring ────────────────────────────────────────────────────────────────
+prometheus-client>=0.20.0
+wandb>=0.17.0
+
+# ── Storage / registry ────────────────────────────────────────────────────────
+sqlalchemy>=2.0.29
+psycopg2-binary>=2.9.9         # PostgreSQL driver
+alembic>=1.13.0                # DB migrations
+
+# ── Utilities ─────────────────────────────────────────────────────────────────
+python-dotenv>=1.0.1
+pyyaml>=6.0.1
+tqdm>=4.66.0
+rich>=13.7.0                   # pretty CLI output
+typer>=0.12.0                  # CLI for scripts
+loguru>=0.7.2
+
+# ── Testing ───────────────────────────────────────────────────────────────────
+pytest>=8.1.0
+pytest-cov>=5.0.0
+pytest-asyncio>=0.23.0
+pytest-mock>=3.14.0
+
+# ── Notebooks ─────────────────────────────────────────────────────────────────
+jupyter>=1.0.0
+matplotlib>=3.8.0
+seaborn>=0.13.0
+plotly>=5.21.0
+ipywidgets>=8.1.0
