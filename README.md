@@ -1,4 +1,4 @@
-# RouteLM: Adaptive Multi-LoRA Support Ticket Routing System
+# DomainRoute AI: Adaptive Multi-LoRA Support Ticket Routing System
 
 > Customer support AI that routes tickets to domain-specialised LoRA adapters,
 > achieves 94%+ auto-resolution, zero escalation false negatives, and cuts cost
