@@ -1,0 +1,8 @@
+{
+  "config": {
+    "primary_metric": "eval_loss",
+    "greater_is_better": false,
+    "top_k": 3
+  },
+  "checkpoints": {}
+}
