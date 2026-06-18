@@ -122,9 +122,23 @@ class DomainLoRAConfig:
         )
 
     def to_training_arguments(self):
-        """Return a transformers.TrainingArguments instance."""
+        """Return a transformers.TrainingArguments instance.
+
+        Handles breaking rename in transformers>=4.46:
+          evaluation_strategy -> eval_strategy
+        """
+        import inspect
         from transformers import TrainingArguments
-        return TrainingArguments(
+
+        # Detect which kwarg name this version of transformers expects
+        ta_params = inspect.signature(TrainingArguments.__init__).parameters
+        eval_strat_key = (
+            "eval_strategy"
+            if "eval_strategy" in ta_params
+            else "evaluation_strategy"
+        )
+
+        kwargs = dict(
             output_dir=self.output_dir,
             num_train_epochs=self.num_train_epochs,
             per_device_train_batch_size=self.per_device_train_batch_size,
@@ -137,7 +151,6 @@ class DomainLoRAConfig:
             max_grad_norm=self.max_grad_norm,
             fp16=self.fp16,
             bf16=self.bf16,
-            evaluation_strategy=self.evaluation_strategy,
             eval_steps=self.eval_steps,
             save_strategy=self.save_strategy,
             save_steps=self.save_steps,
@@ -152,6 +165,8 @@ class DomainLoRAConfig:
             seed=self.seed,
             remove_unused_columns=False,
         )
+        kwargs[eval_strat_key] = self.evaluation_strategy
+        return TrainingArguments(**kwargs)
 
 
 # ── Sweep grid ─────────────────────────────────────────────────────────────────
