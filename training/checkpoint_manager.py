@@ -297,7 +297,15 @@ class CheckpointManager:
 
 # ── HuggingFace TrainerCallback ────────────────────────────────────────────────
 
-class CheckpointCallback:
+# Import TrainerCallback for proper HF Trainer integration
+try:
+    from transformers import TrainerCallback as _TrainerCallback
+    _CB_BASE = _TrainerCallback
+except ImportError:
+    _CB_BASE = object
+
+
+class CheckpointCallback(_CB_BASE):
     """
     HuggingFace TrainerCallback that registers each saved checkpoint
     with the CheckpointManager.

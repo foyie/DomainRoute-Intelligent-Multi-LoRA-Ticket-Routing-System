@@ -162,7 +162,13 @@ def load_qlora_model(
         cfg.base_model, cfg.load_in_4bit,
     )
 
-    if cfg.load_in_4bit:
+    # Always use 4-bit on Colab/limited VRAM environments.
+    # 8-bit requires the entire model to fit on GPU; 4-bit halves the footprint
+    # and is actually preferred for QLoRA (NF4 + double quant).
+    # Colab T4 has 15 GB VRAM; Mistral-7B in 4-bit needs ~5-6 GB.
+    use_4bit = True  # override cfg.load_in_4bit — always 4-bit is safer
+
+    if use_4bit:
         bnb_config = BitsAndBytesConfig(
             load_in_4bit=True,
             bnb_4bit_quant_type="nf4",
@@ -170,14 +176,18 @@ def load_qlora_model(
             bnb_4bit_compute_dtype=torch.bfloat16,
         )
     else:
-        # 8-bit quantisation (QLoRA default)
         bnb_config = BitsAndBytesConfig(load_in_8bit=True)
+
+    # Use "auto" device_map so HF can spread across GPU only (not CPU/disk)
+    # This avoids the "dispatched on CPU" error from 8-bit with limited VRAM
+    safe_device_map = "auto"
 
     tokenizer = _load_tokenizer(cfg.base_model)
     model = AutoModelForCausalLM.from_pretrained(
         cfg.base_model,
         quantization_config=bnb_config,
-        device_map=device_map,
+        device_map=safe_device_map,
+        torch_dtype=torch.bfloat16,
         trust_remote_code=True,
     )
 

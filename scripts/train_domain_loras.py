@@ -185,6 +185,21 @@ def _train_single(
         logger.error("Training failed for domain '%s': %s", domain, e, exc_info=True)
         console.print(f"  [bold red]✗ Training failed: {e}[/bold red]")
         return {"error": str(e)}
+    finally:
+        # Free GPU memory between domains — critical on Colab T4 (15 GB VRAM)
+        try:
+            import gc
+            import torch
+            gc.collect()
+            if torch.cuda.is_available():
+                torch.cuda.empty_cache()
+                torch.cuda.ipc_collect()
+                logger.info(
+                    "GPU memory freed: %.1f GB available",
+                    torch.cuda.mem_get_info()[0] / 1e9,
+                )
+        except Exception:
+            pass
 
 
 def _run_sweep(
