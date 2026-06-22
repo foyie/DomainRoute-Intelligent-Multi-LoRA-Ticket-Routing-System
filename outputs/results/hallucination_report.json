@@ -1,0 +1,29 @@
+{
+  "n_total": 60,
+  "n_hallucinated": 19,
+  "hallucination_rate": 0.3167,
+  "by_domain": {
+    "technical": {
+      "count": 11,
+      "total": 20,
+      "rate": 0.55
+    },
+    "billing": {
+      "count": 6,
+      "total": 13,
+      "rate": 0.4615
+    },
+    "returns": {
+      "count": 2,
+      "total": 20,
+      "rate": 0.1
+    },
+    "escalation": {
+      "count": 0,
+      "total": 7,
+      "rate": 0.0
+    }
+  },
+  "avg_confidence": 0.297,
+  "detection_method": "llm_judge"
+}

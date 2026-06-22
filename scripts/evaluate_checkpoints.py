@@ -40,6 +40,9 @@ from typing import Dict, List, Optional
 import typer
 from rich.console import Console
 from rich.table import Table
+from dotenv import load_dotenv
+
+load_dotenv()
 
 ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT))

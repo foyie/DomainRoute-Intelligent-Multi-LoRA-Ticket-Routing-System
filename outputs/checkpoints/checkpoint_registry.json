@@ -4,5 +4,58 @@
     "greater_is_better": false,
     "top_k": 3
   },
-  "checkpoints": {}
+  "checkpoints": {
+    "technical": [
+      {
+        "domain": "technical",
+        "step": 69,
+        "epoch": 2.91,
+        "metrics": {
+          "eval_loss": 0.6862,
+          "train_loss": 0.6862
+        },
+        "adapter_path": "outputs/checkpoints/technical/technical_best",
+        "is_best": true
+      }
+    ],
+    "billing": [
+      {
+        "domain": "billing",
+        "step": 15,
+        "epoch": 2.61,
+        "metrics": {
+          "eval_loss": 3.1685,
+          "train_loss": 3.1685
+        },
+        "adapter_path": "outputs/checkpoints/billing/billing_best",
+        "is_best": true
+      }
+    ],
+    "returns": [
+      {
+        "domain": "returns",
+        "step": 30,
+        "epoch": 2.79,
+        "metrics": {
+          "eval_loss": 1.5431,
+          "train_loss": 1.5431
+        },
+        "adapter_path": "outputs/checkpoints/returns/returns_best",
+        "is_best": true
+      }
+    ],
+    "escalation": [
+      {
+        "domain": "escalation",
+        "step": 15,
+        "epoch": 5.0,
+        "metrics": {
+          "eval_loss": 0.4362,
+          "train_loss": 8.8224
+        },
+        "adapter_path": "outputs/checkpoints/escalation/escalation_best",
+        "is_best": true
+      }
+    ]
+  }
 }

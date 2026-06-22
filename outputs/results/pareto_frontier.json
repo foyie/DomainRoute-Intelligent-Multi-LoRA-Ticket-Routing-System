@@ -1,0 +1,159 @@
+{
+  "frontier": [
+    {
+      "run_name": "escalation_r16",
+      "domain": "escalation",
+      "lora_rank": 16,
+      "accuracy": 1.0,
+      "latency_ms": 80.2,
+      "cost_per_ticket": 0.0434,
+      "is_pareto_optimal": true
+    },
+    {
+      "run_name": "escalation_r8",
+      "domain": "escalation",
+      "lora_rank": 8,
+      "accuracy": 0.9927,
+      "latency_ms": 82.1,
+      "cost_per_ticket": 0.0239,
+      "is_pareto_optimal": true
+    },
+    {
+      "run_name": "escalation_r4",
+      "domain": "escalation",
+      "lora_rank": 4,
+      "accuracy": 0.987,
+      "latency_ms": 79.3,
+      "cost_per_ticket": 0.0199,
+      "is_pareto_optimal": true
+    }
+  ],
+  "all_points": [
+    {
+      "run_name": "technical_r8",
+      "domain": "technical",
+      "lora_rank": 8,
+      "accuracy": 0.8825,
+      "latency_ms": 84.3,
+      "cost_per_ticket": 0.0332,
+      "is_pareto_optimal": false
+    },
+    {
+      "run_name": "technical_r16",
+      "domain": "technical",
+      "lora_rank": 16,
+      "accuracy": 0.9276,
+      "latency_ms": 98.8,
+      "cost_per_ticket": 0.0588,
+      "is_pareto_optimal": false
+    },
+    {
+      "run_name": "technical_r32",
+      "domain": "technical",
+      "lora_rank": 32,
+      "accuracy": 0.9729,
+      "latency_ms": 123.8,
+      "cost_per_ticket": 0.1177,
+      "is_pareto_optimal": false
+    },
+    {
+      "run_name": "technical_r64",
+      "domain": "technical",
+      "lora_rank": 64,
+      "accuracy": 0.9727,
+      "latency_ms": 177.7,
+      "cost_per_ticket": 0.2177,
+      "is_pareto_optimal": false
+    },
+    {
+      "run_name": "billing_r16",
+      "domain": "billing",
+      "lora_rank": 16,
+      "accuracy": 0.9112,
+      "latency_ms": 85.4,
+      "cost_per_ticket": 0.0614,
+      "is_pareto_optimal": false
+    },
+    {
+      "run_name": "billing_r24",
+      "domain": "billing",
+      "lora_rank": 24,
+      "accuracy": 0.9352,
+      "latency_ms": 109.9,
+      "cost_per_ticket": 0.1216,
+      "is_pareto_optimal": false
+    },
+    {
+      "run_name": "billing_r32",
+      "domain": "billing",
+      "lora_rank": 32,
+      "accuracy": 0.9375,
+      "latency_ms": 127.9,
+      "cost_per_ticket": 0.1673,
+      "is_pareto_optimal": false
+    },
+    {
+      "run_name": "returns_r16",
+      "domain": "returns",
+      "lora_rank": 16,
+      "accuracy": 0.9069,
+      "latency_ms": 90.3,
+      "cost_per_ticket": 0.0529,
+      "is_pareto_optimal": false
+    },
+    {
+      "run_name": "returns_r28",
+      "domain": "returns",
+      "lora_rank": 28,
+      "accuracy": 0.9383,
+      "latency_ms": 112.6,
+      "cost_per_ticket": 0.0842,
+      "is_pareto_optimal": false
+    },
+    {
+      "run_name": "returns_r32",
+      "domain": "returns",
+      "lora_rank": 32,
+      "accuracy": 0.9469,
+      "latency_ms": 127.0,
+      "cost_per_ticket": 0.1385,
+      "is_pareto_optimal": false
+    },
+    {
+      "run_name": "escalation_r4",
+      "domain": "escalation",
+      "lora_rank": 4,
+      "accuracy": 0.987,
+      "latency_ms": 79.3,
+      "cost_per_ticket": 0.0199,
+      "is_pareto_optimal": true
+    },
+    {
+      "run_name": "escalation_r8",
+      "domain": "escalation",
+      "lora_rank": 8,
+      "accuracy": 0.9927,
+      "latency_ms": 82.1,
+      "cost_per_ticket": 0.0239,
+      "is_pareto_optimal": true
+    },
+    {
+      "run_name": "escalation_r16",
+      "domain": "escalation",
+      "lora_rank": 16,
+      "accuracy": 1.0,
+      "latency_ms": 80.2,
+      "cost_per_ticket": 0.0434,
+      "is_pareto_optimal": true
+    },
+    {
+      "run_name": "veritune_routed",
+      "domain": "all_domains",
+      "lora_rank": 32,
+      "accuracy": 0.9348,
+      "latency_ms": 140.5,
+      "cost_per_ticket": 0.0764,
+      "is_pareto_optimal": false
+    }
+  ]
+}

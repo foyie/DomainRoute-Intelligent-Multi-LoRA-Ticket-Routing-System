@@ -1,0 +1,18 @@
+{
+  "timestamp": "2026-06-19T09:25:46.180591",
+  "domains_checked": [],
+  "cosine_sims": {},
+  "domain_distribution": {
+    "technical": 0.42,
+    "billing": 0.28,
+    "returns": 0.22,
+    "escalation": 0.08
+  },
+  "drift_detected": false,
+  "drifted_domains": [],
+  "distribution_shift": false,
+  "kl_divergence": 0.0,
+  "n_probe_texts": 0,
+  "check_duration_ms": 1.6,
+  "alert_fired": false
+}

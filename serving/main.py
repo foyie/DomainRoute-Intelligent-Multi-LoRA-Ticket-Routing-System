@@ -35,7 +35,7 @@ from typing import List, Optional
 from fastapi import FastAPI, HTTPException, Request, Response, BackgroundTasks
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse, PlainTextResponse
-
+from serving.dashboard import router as dashboard_router, init_dashboard
 from routing.models import TicketRequest, TicketResponse, Domain
 from serving.monitoring import setup_structured_logging, get_metrics, RequestTrace
 
@@ -75,6 +75,8 @@ async def lifespan(app: FastAPI):
         )
         # Warm up adapter cache on startup to minimise first-request latency
         _pipeline.warm_up()
+        # Initialise dashboard data layer
+        init_dashboard(metrics_fn=get_metrics().snapshot)
         logger.info("VeriTune ready ✓")
     except Exception as e:
         logger.error("Pipeline init failed: %s", e, exc_info=True)
@@ -107,6 +109,8 @@ app.add_middleware(
     allow_methods=["GET", "POST"],
     allow_headers=["*"],
 )
+# Mount sub-routers
+app.include_router(dashboard_router)
 
 
 # ── Request ID middleware ──────────────────────────────────────────────────────

@@ -321,6 +321,27 @@ pytest tests/test_evaluation.py -v --tb=short
 python -c "
 import json
 
+with open('outputs/results/domain_evaluation.json') as f:
+    result = json.load(f)
+    print('Auto-resolution rate:', f\"{result['auto_resolution_rate']:.1%}\")
+    print('Escalation FNR:', f\"{result['escalation']['false_negative_rate']:.3%}\")
+    print('Latency p95:', f\"{result['latency']['p95_ms']:.0f}ms\")
+    print('Cost/ticket:', f\"\${result['cost']['avg_cost_per_ticket']:.4f}\")
+    print('Hallucination rate:', f\"{result['hallucination_rate']:.1%}\")
+    print('Composite score:', f\"{result['composite_score']:.3f}\")
+
+with open('outputs/results/ab_test_result.json') as f:
+    ab = json.load(f)
+    print(f\"\\nA/B test Δ accuracy: +{ab['accuracy_delta']:.1%} (p={ab['p_value']:.5f})\")
+    print(f\"Significant: {ab['is_significant']}\")
+    print(f\"95% CI: [{ab['ci_lower']:.1%}, {ab['ci_upper']:.1%}]\")
+"
+```
+
+```bash
+python -c "
+import json
+
 # Domain evaluation
 with open('outputs/results/domain_evaluation.json') as f:
     data = json.load(f)
@@ -367,6 +388,7 @@ VeriTune ready ✓
 ### Step 5.2: Test the /predict endpoint
 
 ```bash
+
 curl -X POST http://localhost:8000/predict \
   -H "Content-Type: application/json" \
   -d '{

@@ -35,7 +35,9 @@ import time
 from dataclasses import dataclass, field
 from pathlib import Path
 from typing import List, Optional
+from dotenv import load_dotenv
 
+load_dotenv()
 logger = logging.getLogger(__name__)
 
 
@@ -139,7 +141,7 @@ class HallucinationDetector:
     def __init__(
         self,
         use_llm: bool = True,
-        model: str = "gemini-1.5-flash",  # Changed from gpt-4o-mini
+        model: str = "gemini-2.5-flash",  # Changed from gpt-4o-mini
         provider: str = "gemini",          # Changed from openai
         threshold: float = 0.60,
         max_retries: int = 2,
@@ -410,7 +412,9 @@ class HallucinationDetector:
 
         for attempt in range(self.max_retries + 1):
             try:
-                model = genai.GenerativeModel("gemini-1.5-flash")
+                # model = genai.GenerativeModel("gemini-1.5-flash")
+                model = genai.GenerativeModel("gemini-2.5-flash")
+
                 response_obj = model.generate_content(prompt)
 
                 # Parse JSON from Gemini response

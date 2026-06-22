@@ -1,0 +1,85 @@
+{
+  "run_name": "veritune_routed",
+  "auto_resolution_rate": 0.9348,
+  "escalation": {
+    "sensitivity": 1.0,
+    "specificity": 0.9348,
+    "false_negative_rate": 0.0,
+    "false_positive_rate": 0.0652,
+    "precision": 0.5385,
+    "f1": 0.7,
+    "n_true_escalations": 7,
+    "n_predicted_escalations": 13,
+    "n_total": 99,
+    "meets_safety_budget": true
+  },
+  "latency": {
+    "p50_ms": 107.7,
+    "p95_ms": 140.5,
+    "p99_ms": 147.5,
+    "mean_ms": 106.2,
+    "max_ms": 161.3,
+    "n_requests": 99,
+    "meets_sla": true
+  },
+  "cost": {
+    "avg_cost_per_ticket": 0.0764,
+    "total_cost": 7.56,
+    "cost_by_domain": {
+      "technical": 0.05,
+      "billing": 0.12,
+      "returns": 0.09,
+      "escalation": 0.15
+    },
+    "baseline_cost_per_ticket": 0.5,
+    "cost_reduction_pct": 84.72,
+    "n_tickets": 99
+  },
+  "routing": null,
+  "per_domain": {
+    "technical": {
+      "domain": "technical",
+      "auto_resolution_rate": 0.9259,
+      "n_samples": 54,
+      "n_resolved": 54,
+      "n_escalated": 0,
+      "avg_response_length": 105.0,
+      "avg_latency_ms": 0.0,
+      "cost_per_ticket": 0.05
+    },
+    "billing": {
+      "domain": "billing",
+      "auto_resolution_rate": 0.8462,
+      "n_samples": 13,
+      "n_resolved": 13,
+      "n_escalated": 0,
+      "avg_response_length": 108.0,
+      "avg_latency_ms": 0.0,
+      "cost_per_ticket": 0.12
+    },
+    "returns": {
+      "domain": "returns",
+      "auto_resolution_rate": 1.0,
+      "n_samples": 25,
+      "n_resolved": 25,
+      "n_escalated": 0,
+      "avg_response_length": 93.0,
+      "avg_latency_ms": 0.0,
+      "cost_per_ticket": 0.09
+    },
+    "escalation": {
+      "domain": "escalation",
+      "auto_resolution_rate": 0.0,
+      "n_samples": 7,
+      "n_resolved": 0,
+      "n_escalated": 7,
+      "avg_response_length": 118.0,
+      "avg_latency_ms": 0.0,
+      "cost_per_ticket": 0.15
+    }
+  },
+  "hallucination_rate": 0.0,
+  "composite_score": 0.9619,
+  "n_total": 99,
+  "timestamp": "2026-06-18T23:56:52.708778"
+}

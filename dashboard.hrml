@@ -1,0 +1,661 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>VeriTune · Live Operations</title>
+<style>
+  :root{
+    --bg:        #0B0E11;
+    --bg-panel:  #12161B;
+    --bg-raised: #181D24;
+    --line:      #232A33;
+    --line-soft: #1A2028;
+    --text:      #E4E9EE;
+    --text-dim:  #8893A1;
+    --text-faint:#535D69;
+    --mono: 'SF Mono', 'JetBrains Mono', 'Fira Code', Consolas, monospace;
+    --sans: -apple-system, BlinkMacSystemFont, 'Inter', 'Segoe UI', sans-serif;
+
+    --good:   #4ADE80;
+    --good-bg:rgba(74,222,128,0.08);
+    --warn:   #FBBF24;
+    --warn-bg:rgba(251,191,36,0.08);
+    --crit:   #F87171;
+    --crit-bg:rgba(248,113,113,0.08);
+    --accent: #5EA1F2;
+    --accent-bg: rgba(94,161,242,0.08);
+
+    --tech: #5EA1F2;
+    --bill: #4ADE80;
+    --ret:  #F0A857;
+    --esc:  #F26E8E;
+  }
+
+  *{box-sizing:border-box; margin:0; padding:0;}
+  html,body{
+    background:var(--bg); color:var(--text);
+    font-family:var(--sans); font-size:13px;
+    height:100%;
+  }
+  ::selection{background:var(--accent-bg); color:var(--text);}
+
+  /* ── Top bar ─────────────────────────────────────────── */
+  .topbar{
+    display:flex; align-items:center; gap:16px;
+    padding:14px 24px; border-bottom:1px solid var(--line);
+    position:sticky; top:0; background:rgba(11,14,17,0.92);
+    backdrop-filter:blur(8px); z-index:50;
+  }
+  .brand{display:flex; align-items:center; gap:10px;}
+  .brand-mark{
+    width:22px; height:22px; border-radius:6px;
+    background:linear-gradient(135deg, var(--accent), var(--bill));
+    display:flex; align-items:center; justify-content:center;
+    font-family:var(--mono); font-size:11px; font-weight:700; color:#0B0E11;
+  }
+  .brand-name{font-weight:600; font-size:14px; letter-spacing:-0.2px;}
+  .brand-sub{color:var(--text-faint); font-size:11px; font-family:var(--mono);}
+
+  .conn-status{
+    display:flex; align-items:center; gap:7px;
+    margin-left:auto; font-size:12px; font-family:var(--mono);
+    padding:5px 10px; border-radius:6px; border:1px solid var(--line);
+    color:var(--text-dim);
+  }
+  .conn-dot{width:7px; height:7px; border-radius:50%; background:var(--text-faint); transition:background .2s;}
+  .conn-dot.live{background:var(--good); box-shadow:0 0 8px var(--good);}
+  .conn-dot.error{background:var(--crit); box-shadow:0 0 8px var(--crit);}
+  .conn-dot.pulse{animation:pulse 1.4s ease-in-out infinite;}
+  @keyframes pulse{0%,100%{opacity:1;} 50%{opacity:0.35;}}
+
+  .api-input{
+    background:transparent; border:none; color:var(--text-dim);
+    font-family:var(--mono); font-size:11px; width:170px; outline:none;
+  }
+  .api-input:focus{color:var(--text);}
+
+  .refresh-btn{
+    background:var(--bg-raised); border:1px solid var(--line); color:var(--text-dim);
+    font-family:var(--mono); font-size:11px; padding:5px 10px; border-radius:6px;
+    cursor:pointer; transition:all .15s;
+  }
+  .refresh-btn:hover{color:var(--text); border-color:var(--accent);}
+  .refresh-btn:active{transform:scale(0.96);}
+
+  /* ── Layout ──────────────────────────────────────────── */
+  .wrap{max-width:1180px; margin:0 auto; padding:20px 24px 60px;}
+
+  .banner{
+    display:none; align-items:center; gap:10px;
+    background:var(--crit-bg); border:1px solid rgba(248,113,113,0.25);
+    color:var(--crit); padding:10px 14px; border-radius:8px;
+    font-size:12px; margin-bottom:16px; font-family:var(--mono);
+  }
+  .banner.show{display:flex;}
+
+  /* ── KPI row ─────────────────────────────────────────── */
+  .kpi-row{
+    display:grid; grid-template-columns:repeat(4,1fr); gap:10px;
+    margin-bottom:14px;
+  }
+  .kpi{
+    background:var(--bg-panel); border:1px solid var(--line);
+    border-radius:10px; padding:14px 16px;
+    transition:border-color .2s;
+  }
+  .kpi-label{
+    font-size:10.5px; color:var(--text-faint); text-transform:uppercase;
+    letter-spacing:0.6px; margin-bottom:7px; font-weight:600;
+  }
+  .kpi-val{
+    font-family:var(--mono); font-size:25px; font-weight:600;
+    letter-spacing:-0.5px; line-height:1; color:var(--text);
+  }
+  .kpi-sub{font-size:11px; color:var(--text-dim); margin-top:5px;}
+  .kpi-sub.good{color:var(--good);}
+  .kpi-sub.warn{color:var(--warn);}
+  .kpi-sub.crit{color:var(--crit);}
+
+  /* ── Grid of cards ───────────────────────────────────── */
+  .grid2{display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:10px;}
+  .card{
+    background:var(--bg-panel); border:1px solid var(--line);
+    border-radius:10px; padding:16px 18px;
+  }
+  .card-title{
+    font-size:10.5px; font-weight:600; color:var(--text-faint);
+    text-transform:uppercase; letter-spacing:0.6px; margin-bottom:12px;
+    display:flex; align-items:center; justify-content:space-between;
+  }
+  .card-title .ts{font-weight:400; text-transform:none; letter-spacing:0; font-family:var(--mono); color:var(--text-faint);}
+
+  /* ── Sparkline cards ─────────────────────────────────── */
+  .spark-head{display:flex; justify-content:space-between; align-items:baseline; margin-bottom:8px;}
+  .spark-val{font-family:var(--mono); font-size:22px; font-weight:600; letter-spacing:-0.5px;}
+  .spark-target{font-size:10.5px; color:var(--text-faint); font-family:var(--mono);}
+  canvas.spark{width:100%; height:48px; display:block;}
+
+  /* ── Domain bars ─────────────────────────────────────── */
+  .bar-row{display:flex; align-items:center; gap:10px; margin-bottom:8px;}
+  .bar-row:last-child{margin-bottom:0;}
+  .bar-dot{width:7px; height:7px; border-radius:50%; flex-shrink:0;}
+  .bar-label{font-size:12px; width:78px; flex-shrink:0; color:var(--text-dim);}
+  .bar-track{flex:1; height:6px; background:var(--bg-raised); border-radius:3px; overflow:hidden;}
+  .bar-fill{height:100%; border-radius:3px; transition:width .4s ease;}
+  .bar-val{font-family:var(--mono); font-size:11.5px; width:48px; text-align:right; color:var(--text-dim);}
+
+  /* ── Drift table ─────────────────────────────────────── */
+  table.drift{width:100%; border-collapse:collapse; font-size:12px;}
+  table.drift th{
+    text-align:left; font-size:10px; font-weight:600; color:var(--text-faint);
+    padding:0 0 8px; text-transform:uppercase; letter-spacing:0.5px;
+  }
+  table.drift td{padding:7px 0; border-top:1px solid var(--line-soft); color:var(--text-dim);}
+  table.drift td:first-child{color:var(--text);}
+  table.drift tr:first-child td{border-top:none;}
+  .mono-cell{font-family:var(--mono);}
+  .status-pill{
+    display:inline-flex; align-items:center; gap:4px;
+    font-size:10.5px; padding:2px 7px; border-radius:100px;
+    font-family:var(--mono);
+  }
+  .status-pill.ok{background:var(--good-bg); color:var(--good);}
+  .status-pill.warn{background:var(--warn-bg); color:var(--warn);}
+
+  /* ── Alerts ──────────────────────────────────────────── */
+  .alert-item{
+    display:flex; align-items:flex-start; gap:10px;
+    padding:9px 12px; border-radius:8px; margin-bottom:6px;
+    font-size:12px; font-family:var(--mono);
+  }
+  .alert-item:last-child{margin-bottom:0;}
+  .alert-item.ok{background:var(--good-bg); color:var(--good);}
+  .alert-item.warn{background:var(--warn-bg); color:var(--warn);}
+  .alert-item.crit{background:var(--crit-bg); color:var(--crit);}
+  .alert-dot{width:6px; height:6px; border-radius:50%; margin-top:4px; flex-shrink:0; background:currentColor;}
+
+  /* ── AB test ─────────────────────────────────────────── */
+  .ab-row{display:flex; border:1px solid var(--line); border-radius:8px; overflow:hidden; margin-bottom:10px;}
+  .ab-col{flex:1; padding:12px 14px; text-align:center;}
+  .ab-col:first-child{border-right:1px solid var(--line);}
+  .ab-name{font-size:10.5px; color:var(--text-faint); margin-bottom:6px; text-transform:uppercase; letter-spacing:0.4px;}
+  .ab-acc{font-family:var(--mono); font-size:24px; font-weight:600;}
+  .ab-delta{font-family:var(--mono); font-size:12px; color:var(--good); margin-top:4px;}
+  .sig-line{text-align:center; font-size:11.5px; color:var(--text-dim); font-family:var(--mono);}
+  .sig-line b{color:var(--good);}
+
+  /* ── Pareto ──────────────────────────────────────────── */
+  .pareto-box{background:var(--bg-raised); border-radius:8px; padding:8px;}
+  .pareto-foot{font-size:11px; color:var(--text-faint); margin-top:6px; font-family:var(--mono);}
+
+  /* ── Footer ──────────────────────────────────────────── */
+  .footer{
+    text-align:center; padding:24px 0 8px; color:var(--text-faint);
+    font-size:11px; font-family:var(--mono);
+  }
+  .footer a{color:var(--text-dim); text-decoration:none;}
+  .footer a:hover{color:var(--accent);}
+
+  /* ── Empty / loading states ──────────────────────────── */
+  .skeleton{
+    background:linear-gradient(90deg, var(--bg-raised) 25%, var(--line) 50%, var(--bg-raised) 75%);
+    background-size:200% 100%; animation:shimmer 1.5s infinite; border-radius:4px;
+  }
+  @keyframes shimmer{0%{background-position:200% 0;} 100%{background-position:-200% 0;}}
+
+  @media (max-width:860px){
+    .kpi-row{grid-template-columns:repeat(2,1fr);}
+    .grid2{grid-template-columns:1fr;}
+  }
+</style>
+</head>
+<body>
+
+<div class="topbar">
+  <div class="brand">
+    <div class="brand-mark">VT</div>
+    <div>
+      <div class="brand-name">VeriTune</div>
+      <div class="brand-sub">live ops</div>
+    </div>
+  </div>
+
+  <div class="conn-status" id="connStatus">
+    <div class="conn-dot" id="connDot"></div>
+    <span id="connLabel">connecting…</span>
+  </div>
+  <input class="api-input" id="apiUrl" value="http://localhost:8000" spellcheck="false">
+  <button class="refresh-btn" id="refreshBtn">refresh</button>
+</div>
+
+<div class="wrap">
+
+  <div class="banner" id="errorBanner">
+    <span>⚠</span>
+    <span id="errorMsg">Could not reach the API.</span>
+  </div>
+
+  <div class="kpi-row">
+    <div class="kpi">
+      <div class="kpi-label">Auto-resolution</div>
+      <div class="kpi-val" id="kpiArr">—</div>
+      <div class="kpi-sub" id="kpiArrSub">waiting for data…</div>
+    </div>
+    <div class="kpi">
+      <div class="kpi-label">Escalation FNR</div>
+      <div class="kpi-val" id="kpiFnr">—</div>
+      <div class="kpi-sub" id="kpiFnrSub">safety budget &lt;0.5%</div>
+    </div>
+    <div class="kpi">
+      <div class="kpi-label">Latency p95</div>
+      <div class="kpi-val" id="kpiLat">—</div>
+      <div class="kpi-sub" id="kpiLatSub">SLA target &lt;200ms</div>
+    </div>
+    <div class="kpi">
+      <div class="kpi-label">Cost / ticket</div>
+      <div class="kpi-val" id="kpiCost">—</div>
+      <div class="kpi-sub" id="kpiCostSub">—</div>
+    </div>
+  </div>
+
+  <div class="grid2">
+
+    <div class="card">
+      <div class="card-title">
+        <span>Auto-resolution rate</span>
+        <span class="ts" id="sparkArrTs"></span>
+      </div>
+      <div class="spark-head">
+        <span class="spark-val" id="sparkArrVal">—</span>
+        <span class="spark-target">rolling history</span>
+      </div>
+      <canvas class="spark" id="sparkArr"></canvas>
+    </div>
+
+    <div class="card">
+      <div class="card-title">
+        <span>Latency p95 (ms)</span>
+        <span class="ts" id="sparkLatTs"></span>
+      </div>
+      <div class="spark-head">
+        <span class="spark-val" id="sparkLatVal">—</span>
+        <span class="spark-target">SLA &lt;200ms</span>
+      </div>
+      <canvas class="spark" id="sparkLat"></canvas>
+    </div>
+
+    <div class="card">
+      <div class="card-title">Domain distribution</div>
+      <div id="domainBars">
+        <div class="bar-row"><div class="bar-dot skeleton" style="width:7px;height:7px"></div><div class="bar-label skeleton" style="height:10px"></div><div class="bar-track"></div><div class="bar-val"></div></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">Semantic drift — cosine similarity</div>
+      <table class="drift" id="driftTable">
+        <thead><tr><th>Domain</th><th>Sim</th><th>Status</th></tr></thead>
+        <tbody id="driftBody"></tbody>
+      </table>
+    </div>
+
+    <div class="card">
+      <div class="card-title">A/B test — routed vs single LoRA</div>
+      <div id="abTestBody">
+        <div class="ab-row">
+          <div class="ab-col"><div class="ab-name">control</div><div class="ab-acc">—</div></div>
+          <div class="ab-col"><div class="ab-name">treatment</div><div class="ab-acc">—</div></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="card-title">Pareto frontier — accuracy vs cost</div>
+      <div class="pareto-box">
+        <svg id="paretoSvg" width="100%" viewBox="0 0 280 130"></svg>
+      </div>
+      <div class="pareto-foot" id="paretoFoot"></div>
+    </div>
+
+  </div>
+
+  <div class="card" style="margin-bottom:10px">
+    <div class="card-title">Active alerts</div>
+    <div id="alertsBody">
+      <div class="alert-item ok"><div class="alert-dot"></div><span>No data yet</span></div>
+    </div>
+  </div>
+
+  <div class="footer">
+    auto-refreshing every <span id="refreshIntervalLabel">5</span>s · point this file at any VeriTune deployment by editing the URL above ·
+    <a href="#" id="docsLink">/docs</a>
+  </div>
+
+</div>
+
+<script>
+const REFRESH_MS = 5000;
+const COLORS = { technical: 'var(--tech)', billing: 'var(--bill)', returns: 'var(--ret)', escalation: 'var(--esc)' };
+const COLOR_HEX = { technical: '#5EA1F2', billing: '#4ADE80', returns: '#F0A857', escalation: '#F26E8E' };
+
+let pollTimer = null;
+let lastGoodSnapshot = null;
+
+function getBaseUrl() {
+  let v = document.getElementById('apiUrl').value.trim();
+  if (v.endsWith('/')) v = v.slice(0, -1);
+  return v;
+}
+
+function setConn(state, label) {
+  const dot = document.getElementById('connDot');
+  const lbl = document.getElementById('connLabel');
+  dot.className = 'conn-dot ' + state;
+  lbl.textContent = label;
+}
+
+function showBanner(msg) {
+  const b = document.getElementById('errorBanner');
+  document.getElementById('errorMsg').textContent = msg;
+  b.classList.add('show');
+}
+function hideBanner() {
+  document.getElementById('errorBanner').classList.remove('show');
+}
+
+async function fetchSnapshot() {
+  const base = getBaseUrl();
+  setConn('pulse', 'fetching…');
+  try {
+    const res = await fetch(base + '/dashboard/snapshot', { cache: 'no-store' });
+    if (!res.ok) {
+      if (res.status === 404) {
+        throw new Error('404 — /dashboard routes not mounted. Check serving/main.py includes the dashboard router.');
+      }
+      throw new Error('HTTP ' + res.status);
+    }
+    const data = await res.json();
+    lastGoodSnapshot = data;
+    setConn('live', 'live');
+    hideBanner();
+    render(data);
+  } catch (err) {
+    setConn('error', 'disconnected');
+    showBanner(err.message || 'Could not reach ' + base);
+    document.getElementById('docsLink').href = base + '/docs';
+  }
+}
+
+function pct(v, digits) {
+  if (v === undefined || v === null) return '—';
+  return (v * 100).toFixed(digits === undefined ? 1 : digits) + '%';
+}
+function ms(v) {
+  if (v === undefined || v === null) return '—';
+  return Math.round(v) + 'ms';
+}
+function usd(v) {
+  if (v === undefined || v === null) return '—';
+  return '$' + v.toFixed(2);
+}
+
+function render(data) {
+  const ev = data.eval_results || {};
+  const drift = data.drift || {};
+  const sparklines = data.sparklines || {};
+  const pareto = data.pareto || {};
+  const abTest = data.ab_test || {};
+  const metrics = data.metrics || {};
+  const alerts = data.active_alerts || [];
+
+  // ── KPIs ──────────────────────────────────────────────
+  document.getElementById('kpiArr').textContent = pct(ev.auto_resolution_rate);
+  const arrSub = document.getElementById('kpiArrSub');
+  if (ev.auto_resolution_rate >= 0.94) { arrSub.textContent = 'target ≥94% ✓'; arrSub.className = 'kpi-sub good'; }
+  else if (ev.auto_resolution_rate >= 0.90) { arrSub.textContent = 'below target'; arrSub.className = 'kpi-sub warn'; }
+  else { arrSub.textContent = 'critical'; arrSub.className = 'kpi-sub crit'; }
+
+  const fnr = ev.escalation ? ev.escalation.false_negative_rate : undefined;
+  document.getElementById('kpiFnr').textContent = pct(fnr, 2);
+  const fnrSub = document.getElementById('kpiFnrSub');
+  if (fnr !== undefined) {
+    fnrSub.textContent = fnr <= 0.005 ? 'safety budget ✓' : 'BUDGET EXCEEDED';
+    fnrSub.className = fnr <= 0.005 ? 'kpi-sub good' : 'kpi-sub crit';
+  }
+
+  const lat = ev.latency ? ev.latency.p95_ms : undefined;
+  document.getElementById('kpiLat').textContent = ms(lat);
+  const latSub = document.getElementById('kpiLatSub');
+  if (lat !== undefined) {
+    latSub.textContent = lat < 200 ? 'SLA ✓' : 'SLA breach';
+    latSub.className = lat < 200 ? 'kpi-sub good' : 'kpi-sub crit';
+  }
+
+  const cost = ev.cost ? ev.cost.avg_cost_per_ticket : undefined;
+  const costRed = ev.cost ? ev.cost.cost_reduction_pct : undefined;
+  document.getElementById('kpiCost').textContent = cost !== undefined ? usd(cost) : '—';
+  document.getElementById('kpiCostSub').textContent = costRed !== undefined ? ('↓' + costRed.toFixed(0) + '% vs baseline') : '';
+
+  // ── Sparklines ────────────────────────────────────────
+  const arrSeries = sparklines.auto_resolution_rate || [];
+  const latSeries = sparklines.latency_p95_ms || [];
+  drawSpark('sparkArr', arrSeries, '#4ADE80', v => (v * 100).toFixed(1) + '%');
+  drawSpark('sparkLat', latSeries, '#5EA1F2', v => Math.round(v) + 'ms');
+  document.getElementById('sparkArrVal').textContent = arrSeries.length ? pct(arrSeries[arrSeries.length - 1]) : '—';
+  document.getElementById('sparkLatVal').textContent = latSeries.length ? ms(latSeries[latSeries.length - 1]) : '—';
+
+  const nowStr = new Date(data.timestamp * 1000).toLocaleTimeString();
+  document.getElementById('sparkArrTs').textContent = nowStr;
+  document.getElementById('sparkLatTs').textContent = nowStr;
+
+  // ── Domain bars ───────────────────────────────────────
+  const dist = metrics.domain_distribution || {};
+  const total = Object.values(dist).reduce((a, b) => a + b, 0) || 1;
+  const domainBarsEl = document.getElementById('domainBars');
+  domainBarsEl.innerHTML = '';
+  const order = ['technical', 'billing', 'returns', 'escalation'];
+  order.forEach(d => {
+    if (!(d in dist)) return;
+    const frac = dist[d] / total;
+    const row = document.createElement('div');
+    row.className = 'bar-row';
+    row.innerHTML = `
+      <div class="bar-dot" style="background:${COLOR_HEX[d]}"></div>
+      <div class="bar-label">${d[0].toUpperCase() + d.slice(1)}</div>
+      <div class="bar-track"><div class="bar-fill" style="width:${(frac*100).toFixed(1)}%;background:${COLOR_HEX[d]}"></div></div>
+      <div class="bar-val">${dist[d]}</div>
+    `;
+    domainBarsEl.appendChild(row);
+  });
+  if (!domainBarsEl.children.length) {
+    domainBarsEl.innerHTML = '<div style="color:var(--text-faint);font-size:12px">No traffic recorded yet</div>';
+  }
+
+  // ── Drift table ───────────────────────────────────────
+  const sims = drift.cosine_sims || {};
+  const driftBody = document.getElementById('driftBody');
+  driftBody.innerHTML = '';
+  order.forEach(d => {
+    if (!(d in sims)) return;
+    const sim = sims[d];
+    const ok = sim >= 0.94;
+    const tr = document.createElement('tr');
+    tr.innerHTML = `
+      <td>${d[0].toUpperCase() + d.slice(1)}</td>
+      <td class="mono-cell">${sim.toFixed(4)}</td>
+      <td><span class="status-pill ${ok ? 'ok' : 'warn'}">${ok ? '✓ ok' : '⚠ drift'}</span></td>
+    `;
+    driftBody.appendChild(tr);
+  });
+  if (!driftBody.children.length) {
+    driftBody.innerHTML = '<tr><td colspan="3" style="color:var(--text-faint)">No drift data yet — run /dashboard/drift/check</td></tr>';
+  }
+
+  // ── A/B test ──────────────────────────────────────────
+  const abBody = document.getElementById('abTestBody');
+  if (abTest.control_accuracy !== undefined) {
+    const delta = (abTest.accuracy_delta * 100).toFixed(1);
+    abBody.innerHTML = `
+      <div class="ab-row">
+        <div class="ab-col">
+          <div class="ab-name">control</div>
+          <div class="ab-acc">${pct(abTest.control_accuracy)}</div>
+        </div>
+        <div class="ab-col">
+          <div class="ab-name">treatment</div>
+          <div class="ab-acc" style="color:var(--good)">${pct(abTest.treatment_accuracy)}</div>
+          <div class="ab-delta">+${delta}pp</div>
+        </div>
+      </div>
+      <div class="sig-line">
+        ${abTest.is_significant ? '<b>significant</b>' : 'not significant'} ·
+        p=${abTest.p_value < 0.001 ? '&lt;0.001' : abTest.p_value.toFixed(4)} ·
+        n=${abTest.n_samples || '—'}
+      </div>
+    `;
+  }
+
+  // ── Pareto ────────────────────────────────────────────
+  drawPareto(pareto.points || []);
+
+  // ── Alerts ────────────────────────────────────────────
+  const alertsBody = document.getElementById('alertsBody');
+  alertsBody.innerHTML = '';
+  if (!alerts.length) {
+    alertsBody.innerHTML = '<div class="alert-item ok"><div class="alert-dot"></div><span>All SLA gates passing — no active alerts</span></div>';
+  } else {
+    alerts.forEach(a => {
+      const cls = a.level === 'critical' ? 'crit' : a.level === 'warn' ? 'warn' : 'ok';
+      const item = document.createElement('div');
+      item.className = 'alert-item ' + cls;
+      item.innerHTML = `<div class="alert-dot"></div><span><b>${a.rule_name}</b> — ${a.message}</span>`;
+      alertsBody.appendChild(item);
+    });
+  }
+}
+
+function drawSpark(canvasId, series, color, fmt) {
+  const canvas = document.getElementById(canvasId);
+  if (!canvas) return;
+  const dpr = window.devicePixelRatio || 1;
+  const W = canvas.offsetWidth || 280;
+  const H = 48;
+  canvas.width = W * dpr; canvas.height = H * dpr;
+  const ctx = canvas.getContext('2d');
+  ctx.scale(dpr, dpr);
+  ctx.clearRect(0, 0, W, H);
+
+  if (!series.length) {
+    ctx.fillStyle = '#535D69';
+    ctx.font = '11px monospace';
+    ctx.fillText('waiting for data…', 4, H / 2);
+    return;
+  }
+
+  const min = Math.min(...series), max = Math.max(...series);
+  const range = (max - min) || 1;
+  const pad = 4;
+
+  ctx.beginPath();
+  series.forEach((v, i) => {
+    const x = (i / Math.max(series.length - 1, 1)) * W;
+    const y = H - ((v - min) / range) * (H - pad * 2) - pad;
+    i === 0 ? ctx.moveTo(x, y) : ctx.lineTo(x, y);
+  });
+  ctx.strokeStyle = color;
+  ctx.lineWidth = 1.6;
+  ctx.lineJoin = 'round';
+  ctx.stroke();
+
+  // Fill under curve
+  const lastX = W, lastY = H - ((series[series.length-1] - min) / range) * (H - pad*2) - pad;
+  ctx.lineTo(lastX, H); ctx.lineTo(0, H); ctx.closePath();
+  const grad = ctx.createLinearGradient(0, 0, 0, H);
+  grad.addColorStop(0, color + '22');
+  grad.addColorStop(1, color + '00');
+  ctx.fillStyle = grad;
+  ctx.fill();
+
+  // Last point dot
+  const lx = W - 2, ly = H - ((series[series.length - 1] - min) / range) * (H - pad * 2) - pad;
+  ctx.beginPath(); ctx.arc(lx, ly, 2.5, 0, Math.PI * 2);
+  ctx.fillStyle = color; ctx.fill();
+}
+
+function drawPareto(points) {
+  const svg = document.getElementById('paretoSvg');
+  const footEl = document.getElementById('paretoFoot');
+  svg.innerHTML = '';
+
+  if (!points.length) {
+    footEl.textContent = 'No Pareto data yet — run scripts/evaluate_checkpoints.py';
+    return;
+  }
+
+  const W = 280, H = 130, padL = 32, padB = 20, padT = 10, padR = 10;
+  const costs = points.map(p => p.cost_per_ticket);
+  const accs   = points.map(p => p.accuracy);
+  const minC = Math.min(...costs), maxC = Math.max(...costs);
+  const minA = Math.min(...accs) - 0.02, maxA = Math.max(...accs) + 0.02;
+
+  const xScale = c => padL + ((c - minC) / (maxC - minC || 1)) * (W - padL - padR);
+  const yScale = a => H - padB - ((a - minA) / (maxA - minA || 1)) * (H - padT - padB);
+
+  const ns = 'http://www.w3.org/2000/svg';
+  const axisX = document.createElementNS(ns, 'line');
+  axisX.setAttribute('x1', padL); axisX.setAttribute('y1', H - padB);
+  axisX.setAttribute('x2', W - padR); axisX.setAttribute('y2', H - padB);
+  axisX.setAttribute('stroke', '#232A33'); axisX.setAttribute('stroke-width', '0.6');
+  svg.appendChild(axisX);
+
+  const axisY = document.createElementNS(ns, 'line');
+  axisY.setAttribute('x1', padL); axisY.setAttribute('y1', padT);
+  axisY.setAttribute('x2', padL); axisY.setAttribute('y2', H - padB);
+  axisY.setAttribute('stroke', '#232A33'); axisY.setAttribute('stroke-width', '0.6');
+  svg.appendChild(axisY);
+
+  // Frontier line through optimal points, sorted by cost
+  const frontierPts = points.filter(p => p.is_pareto_optimal).sort((a,b) => a.cost_per_ticket - b.cost_per_ticket);
+  if (frontierPts.length > 1) {
+    const poly = document.createElementNS(ns, 'polyline');
+    poly.setAttribute('points', frontierPts.map(p => `${xScale(p.cost_per_ticket)},${yScale(p.accuracy)}`).join(' '));
+    poly.setAttribute('fill', 'none'); poly.setAttribute('stroke', '#535D69');
+    poly.setAttribute('stroke-width', '0.7'); poly.setAttribute('stroke-dasharray', '3,3');
+    svg.appendChild(poly);
+  }
+
+  points.forEach(p => {
+    const cx = xScale(p.cost_per_ticket), cy = yScale(p.accuracy);
+    const color = COLOR_HEX[p.domain] || '#8893A1';
+    const circle = document.createElementNS(ns, 'circle');
+    circle.setAttribute('cx', cx); circle.setAttribute('cy', cy);
+    circle.setAttribute('r', p.is_pareto_optimal ? 4.5 : 3);
+    circle.setAttribute('fill', p.is_pareto_optimal ? color : '#181D24');
+    circle.setAttribute('stroke', color);
+    circle.setAttribute('stroke-width', p.is_pareto_optimal ? '1.4' : '0.8');
+    circle.setAttribute('opacity', p.is_pareto_optimal ? '1' : '0.55');
+    const title = document.createElementNS(ns, 'title');
+    title.textContent = `${p.run_name}: acc=${(p.accuracy*100).toFixed(1)}% lat=${p.latency_ms}ms cost=$${p.cost_per_ticket.toFixed(2)}`;
+    circle.appendChild(title);
+    svg.appendChild(circle);
+  });
+
+  const best = frontierPts.find(p => p.domain === 'technical') || frontierPts[frontierPts.length - 1];
+  if (best) {
+    footEl.textContent = `${best.run_name} · ${(best.accuracy*100).toFixed(1)}% acc · ${best.latency_ms}ms · $${best.cost_per_ticket.toFixed(2)}/ticket`;
+  }
+}
+
+document.getElementById('refreshBtn').addEventListener('click', fetchSnapshot);
+document.getElementById('apiUrl').addEventListener('keydown', e => {
+  if (e.key === 'Enter') { clearInterval(pollTimer); fetchSnapshot(); pollTimer = setInterval(fetchSnapshot, REFRESH_MS); }
+});
+document.getElementById('refreshIntervalLabel').textContent = (REFRESH_MS / 1000).toString();
+
+fetchSnapshot();
+pollTimer = setInterval(fetchSnapshot, REFRESH_MS);
+</script>
+
+</body>
+</html>xf8--

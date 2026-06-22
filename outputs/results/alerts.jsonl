@@ -1,0 +1,1 @@
+{"rule_name": "cache_hit_rate_low", "level": "warn", "message": "Cache hit rate = 0.0% (warn <80%) \u2014 consider increasing cache_size", "timestamp": 1781861109.567287, "resolved": false}
